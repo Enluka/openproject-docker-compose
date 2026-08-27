@@ -1,0 +1,27 @@
+networks:
+  reverse_proxy:
+    external: true
+x-op-smtp: &smtp
+  environment:
+    OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST: "10.55.1.6/32"
+
+volumes:
+  pgdata18:
+
+services:
+  db:
+    volumes: !override
+      - pgdata18:/var/lib/postgresql
+  proxy:
+    networks:
+      reverse_proxy:
+  web:
+    <<: *smtp
+    labels:
+      - "diun.enable=true"
+  worker:
+    <<: *smtp
+  cron:
+    <<: *smtp
+  seeder:
+    <<: *smtp
