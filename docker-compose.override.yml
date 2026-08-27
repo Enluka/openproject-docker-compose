@@ -13,6 +13,7 @@ services:
     volumes: !override
       - pgdata18:/var/lib/postgresql
   proxy:
+    ports: !override
     networks:
       reverse_proxy:
   web:
